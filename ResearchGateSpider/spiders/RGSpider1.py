@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from scrapy.spiders import CrawlSpider
+from scrapy.spiders import CrawlSpider, Rule
 from scrapy import Request, FormRequest
 from scrapy.utils.request import request_fingerprint
 from ResearchGateSpider.items import ResearchGateItem
