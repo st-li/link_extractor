@@ -15,7 +15,7 @@ import time
 
 
 class RGSpider1(CrawlSpider):
-    name = 'url_test_link302'
+    name = 'RGSpider1'
     college_name = 'utulsa'
     college_id = '11'
     country_id = '1'
@@ -181,10 +181,10 @@ class RGSpider1(CrawlSpider):
         #yield Request(url0, headers=headers, callback=self.parse_candidate_overview, dont_filter=True)
 
     def __init__(self, **kwargs):
-        super(url_test_link302, self).__init__(**kwargs)
+        super(RGSpider1, self).__init__(**kwargs)
         self.lostitem_file = open('/data/lost_link_extractor.out', 'a+')
         pass
 
     def close(self, reason):
         self.lostitem_file.close()
-        super(url_test_link302, self).close(self, reason)
+        super(RGSpider1, self).close(self, reason)
