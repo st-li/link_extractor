@@ -9,6 +9,7 @@ from ResearchGateSpider.func import parse_text_by_multi_content
 from scrapy.exceptions import CloseSpider
 #from scrapy_splash import SplashRequest
 #from scrapy_splash import SplashMiddleware
+from scrapy.linkextractors import LinkExtractor
 import hashlib
 import time
 
@@ -80,13 +81,14 @@ class RGSpider1(CrawlSpider):
             self.lostitem_file.close()
             raise CloseSpider(reason=u'被封了，准备切换ip')
         item = CandidateBasicItem()
+        item['key'] = hashlib.sha256(response.url).hexdigest()
         item['country_id'] = self.country_id
         item['college_id'] = self.college_id
         item['discipline_id'] = '0'
 
         item['url'] = response.url
         # item['source_code'] = response.body
-        item['source_text'] = response.xpath("//text()").extract()
+        item['source_text'] = parse_text_by_multi_content(response.xpath("//*"), '||||')
         item['header_title'] = response.xpath('//head/title/text()').extract()
 
         return item

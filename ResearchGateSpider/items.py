@@ -25,3 +25,11 @@ class ResearchGateItem(Item):
     # country = Field()
     # publications = Field()
 	
+class CandidateBasicItem(Item):
+    key = Field()
+    country_id = Field()
+    college_id = Field()
+    discipline_id = Field()
+    url = Field()
+    source_text = Field()
+    header_title = Field()
