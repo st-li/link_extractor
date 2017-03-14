@@ -43,7 +43,16 @@ class MongoDBPipeline(object):
             if self.collection.find_one({"_id" : item["key"]}):
                 print "item is already in MongoDB \n"
             else:
-                self.collection.insert({"_id": item["key"], "value" : dict(item)})
+                # self.collection.insert({"_id": item["key"], "value" : dict(item)})
+                self.collection.insert(
+                    {
+                        '_id': item['key'],
+                        'university' : item['university'],
+                        'url' : item['url'],
+                        'source' : item['source_code'],
+                        'header_title' : item['header_title']
+                    }
+                )
             log.msg("Question added to MongoDB database!",
                     level=log.DEBUG, spider=spider)
         return item

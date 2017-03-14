@@ -33,3 +33,4 @@ class CandidateBasicItem(Item):
     url = Field()
     source_text = Field()
     header_title = Field()
+    university = Field()

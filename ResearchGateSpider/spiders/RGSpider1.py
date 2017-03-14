@@ -12,6 +12,8 @@ import pymongo
 import hashlib
 import time
 import re
+import gzip
+from w3lib.http import headers_dict_to_raw, headers_raw_to_dict
 
 class RGSpider1(CrawlSpider):
     name = 'RGSpider1'
@@ -89,10 +91,15 @@ class RGSpider1(CrawlSpider):
         item['country_id'] = self.country_id
         item['college_id'] = self.college_id
         item['discipline_id'] = '0'
+        item['university'] = self.college_name
 
         item['url'] = response.url
-        # item['source_code'] = response.body
-        item['source_text'] = parse_text_by_multi_content(response.xpath("//*"), '||||')
+
+        # response_headers = headers_dict_to_raw(response.headers)
+        response_body = self._get_body(response.headers, response.body)
+        
+        item['source_code'] = response_body
+        # item['source_text'] = parse_text_by_multi_content(response.xpath("//*"), '||||')
         item['header_title'] = response.xpath('//head/title/text()').extract()
 
         return item
@@ -106,3 +113,13 @@ class RGSpider1(CrawlSpider):
     def close(self, reason):
         # self.lostitem_file.close()
         super(RGSpider1, self).close(self, reason)
+
+    @staticmethod
+    def _get_body(headers, body):
+        if "Content-Encoding" in headers and headers["Content-Encoding"] == "gzip":
+            compressedstream = StringIO.StringIO(body)
+            gzipper = gzip.GzipFile(fileobj=compressedstream)
+            body = gzipper.read()
+        else:
+            body = body
+        return body
