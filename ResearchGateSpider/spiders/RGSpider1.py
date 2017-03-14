@@ -7,12 +7,11 @@ from ResearchGateSpider.items import ResearchGateItem,  CandidateBasicItem
 from ResearchGateSpider.datafilter import DataFilter
 from ResearchGateSpider.func import parse_text_by_multi_content
 from scrapy.exceptions import CloseSpider
-#from scrapy_splash import SplashRequest
-#from scrapy_splash import SplashMiddleware
 from scrapy.linkextractors import LinkExtractor
+import pymongo
 import hashlib
 import time
-
+import re
 
 class RGSpider1(CrawlSpider):
     name = 'RGSpider1'
@@ -27,7 +26,7 @@ class RGSpider1(CrawlSpider):
     rules =(
 
         Rule(LinkExtractor(allow_domains=allowed_domains,
-                           allow=('colleges-and-schools','schools_and_colleges','schools-colleges','content',r'[\w\-]+Faculty',r'academics([\-\w\d]+){0,1}','faculty',
+                           allow=('colleges-and-schools','schools_and_colleges','schools-colleges','content',r'[\w\-]+Faculty',r'academic([\-\w\d]+)','faculty',
                                   'people','profile','faculty-profiles','departments'
                                   ,'persons','faculty-staff','faculty_staff','faculty-profiles','faculty-directory',
                                   'dept','department-directory','person' ,r'/note/\d{4,5}$','profiles','directory'
@@ -41,14 +40,10 @@ class RGSpider1(CrawlSpider):
                                  r'[\w\-]+award',r'[\w\-]+awards',r'[\w\-]+mentors', r'[\w\-]+students',
                                  'meetings','alumni',r'[\w\-]+positions',
                                  r'[\w\d\_]+\.rtf','archive','positions',
-
-
                                  ),
-
                            tags=('a'),
                            attrs=('href'),
                            canonicalize=False,
-
                            unique=True,
                            ),
              process_links='link_filtering',
@@ -76,9 +71,18 @@ class RGSpider1(CrawlSpider):
 
     def parse_item(self, response):
         if response.status in [x for x in range(400, 500) if x != 404]:
-            lostitem_str = 'The lost url is ' + response.url + '\n'
-            self.lostitem_file.write(lostitem_str)
-            self.lostitem_file.close()
+            # lostitem_str = 'The lost url is ' + response.url + '\n'
+            # self.lostitem_file.write(lostitem_str)
+            # self.lostitem_file.close()
+            client = pymongo.MongoClient(
+                "118.190.45.60",
+                27017
+            )
+            db = client["link_extractor"]
+            auth_result = db.authenticate(name='eol_spider', password='m~b4^Uurp)g', mechanism='SCRAM-SHA-1')
+            collection = db['lost_url']
+            collection.insert_one({'lost_usl':response.url, 'type':'overview'})
+            client.close()
             raise CloseSpider(reason=u'被封了，准备切换ip')
         item = CandidateBasicItem()
         item['key'] = hashlib.sha256(response.url).hexdigest()
@@ -96,9 +100,9 @@ class RGSpider1(CrawlSpider):
 
     def __init__(self, **kwargs):
         super(RGSpider1, self).__init__(**kwargs)
-        self.lostitem_file = open('/data/lost_link_extractor.out', 'a+')
+        # self.lostitem_file = open('/data/lost_link_extractor.out', 'a+')
         pass
 
     def close(self, reason):
-        self.lostitem_file.close()
+        # self.lostitem_file.close()
         super(RGSpider1, self).close(self, reason)

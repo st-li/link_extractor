@@ -40,10 +40,10 @@ class MongoDBPipeline(object):
                 valid = False
                 raise DropItem("Missing {0}!".format(data))
         if valid:
-            if self.collection.find_one({"_id" : item["person_key"]}):
+            if self.collection.find_one({"_id" : item["key"]}):
                 print "item is already in MongoDB \n"
             else:
-                self.collection.insert({"_id": item["person_key"], "value" : dict(item)})
+                self.collection.insert({"_id": item["key"], "value" : dict(item)})
             log.msg("Question added to MongoDB database!",
                     level=log.DEBUG, spider=spider)
         return item
