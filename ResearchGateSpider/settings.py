@@ -98,7 +98,7 @@ ITEM_PIPELINES = {
 # Enable and configure HTTP caching (disabled by default)
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html#httpcache-middleware-settings
 
-HTTPCACHE_ENABLED=True
+HTTPCACHE_ENABLED=False
 HTTPCACHE_EXPIRATION_SECS=0
 HTTPCACHE_DIR='httpcache'
 ignore_codes = range(100, 701)

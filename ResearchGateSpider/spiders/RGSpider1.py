@@ -17,13 +17,13 @@ from w3lib.http import headers_dict_to_raw, headers_raw_to_dict
 
 class RGSpider1(CrawlSpider):
     name = 'RGSpider1'
-    college_name = 'utulsa'
+    college_name = 'George Washington University'
     college_id = '11'
     country_id = '1'
     state_id = '1'
     city_id = '1'
-    allowed_domains = ['unl.edu']
-    start_urls = ['https://www.unl.edu/']
+    allowed_domains = ['gwu.edu']
+    start_urls = ['https://www.gwu.edu/']
     
     rules =(
 
@@ -97,7 +97,7 @@ class RGSpider1(CrawlSpider):
 
         # response_headers = headers_dict_to_raw(response.headers)
         response_body = self._get_body(response.headers, response.body)
-        
+
         item['source_code'] = response_body
         # item['source_text'] = parse_text_by_multi_content(response.xpath("//*"), '||||')
         item['header_title'] = response.xpath('//head/title/text()').extract()

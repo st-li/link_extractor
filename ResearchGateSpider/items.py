@@ -31,6 +31,6 @@ class CandidateBasicItem(Item):
     college_id = Field()
     discipline_id = Field()
     url = Field()
-    source_text = Field()
+    source_code = Field()
     header_title = Field()
     university = Field()
