@@ -17,13 +17,13 @@ from w3lib.http import headers_dict_to_raw, headers_raw_to_dict
 
 class RGSpider1(CrawlSpider):
     name = 'RGSpider1'
-    college_name = 'George Washington University'
+    college_name = 'University of Chicago'
     college_id = '11'
     country_id = '1'
     state_id = '1'
     city_id = '1'
-    allowed_domains = ['gwu.edu']
-    start_urls = ['https://www.gwu.edu/']
+    allowed_domains = ['uchicago.edu']
+    start_urls = ['http://www.uchicago.edu/']
     
     rules =(
 
@@ -72,20 +72,20 @@ class RGSpider1(CrawlSpider):
         return ret
 
     def parse_item(self, response):
-        if response.status in [x for x in range(400, 500) if x != 404]:
-            # lostitem_str = 'The lost url is ' + response.url + '\n'
-            # self.lostitem_file.write(lostitem_str)
-            # self.lostitem_file.close()
-            client = pymongo.MongoClient(
-                "118.190.45.60",
-                27017
-            )
-            db = client["link_extractor"]
-            auth_result = db.authenticate(name='eol_spider', password='m~b4^Uurp)g', mechanism='SCRAM-SHA-1')
-            collection = db['lost_url']
-            collection.insert_one({'lost_usl':response.url, 'type':'overview'})
-            client.close()
-            raise CloseSpider(reason=u'被封了，准备切换ip')
+        # if response.status in [x for x in range(400, 500) if x != 404]:
+        #     # lostitem_str = 'The lost url is ' + response.url + '\n'
+        #     # self.lostitem_file.write(lostitem_str)
+        #     # self.lostitem_file.close()
+        #     client = pymongo.MongoClient(
+        #         "118.190.45.60",
+        #         27017
+        #     )
+        #     db = client["link_extractor"]
+        #     auth_result = db.authenticate(name='eol_spider', password='m~b4^Uurp)g', mechanism='SCRAM-SHA-1')
+        #     collection = db['lost_url']
+        #     collection.insert_one({'lost_usl':response.url, 'type':'overview'})
+        #     client.close()
+        #     raise CloseSpider(reason=u'被封了，准备切换ip')
         item = CandidateBasicItem()
         item['key'] = hashlib.sha256(response.url).hexdigest()
         item['country_id'] = self.country_id
