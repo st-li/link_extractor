@@ -15,7 +15,7 @@ import time
 import re
 import gzip
 from w3lib.http import headers_dict_to_raw, headers_raw_to_dict
-import pandas as pd
+#import pandas as pd
 
 class RGSpider1(CrawlSpider):
     name = 'RGSpider1'
@@ -90,16 +90,19 @@ class RGSpider1(CrawlSpider):
         item['url'] = response.url
 
         # response_headers = headers_dict_to_raw(response.headers)
+        item['header_title'] = response.xpath('//head/title/text()').extract()
+        response_body = self._get_body(response.headers, response.body)
+        item['source_code'] = response_body
         
-        print type(response)
-        # item['source_text'] = parse_text_by_multi_content(response.xpath("//*"), '||||')
-        if not isinstance(response, scrapy.http.response.Response):
-            item['header_title'] = response.xpath('//head/title/text()').extract()
-            response_body = self._get_body(response.headers, response.body)
-            item['source_code'] = response_body
-        else:
-            item['header_title'] = ''
-            item['source_code'] = ''
+#        print type(response)
+#        # item['source_text'] = parse_text_by_multi_content(response.xpath("//*"), '||||')
+#        if not isinstance(response, scrapy.http.response.Response):
+#            item['header_title'] = response.xpath('//head/title/text()').extract()
+#            response_body = self._get_body(response.headers, response.body)
+#            item['source_code'] = response_body
+#        else:
+#            item['header_title'] = ''
+#            item['source_code'] = ''
         return item
         pass
 
