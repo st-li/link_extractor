@@ -13,7 +13,7 @@ BOT_NAME = 'ResearchGateSpider'
 
 SPIDER_MODULES = ['ResearchGateSpider.spiders']
 NEWSPIDER_MODULE = 'ResearchGateSpider.spiders'
-DOWNLOAD_TIMEOUT=20
+DOWNLOAD_TIMEOUT=480
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'ResearchGateSpider (+http://www.yourdomain.com)'
@@ -27,7 +27,7 @@ ROBOTSTXT_OBEY = False
 # Configure a delay for requests for the same website (default: 0)
 # See http://scrapy.readthedocs.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-DOWNLOAD_DELAY = 0.2
+# DOWNLOAD_DELAY = 0.3
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN = 16
 #CONCURRENT_REQUESTS_PER_IP = 16
@@ -70,7 +70,7 @@ mysql_dbname = 'eol_flat'
 mongodb_server = '118.190.45.60'
 mongodb_port = 27017
 mongodb_db = 'link_extractor'
-mongodb_collection = 'link_item'
+mongodb_collection = 'link_item1'
 
 mongodb_user = 'eol_spider'
 mongodb_pwd = 'm~b4^Uurp)g'

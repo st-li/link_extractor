@@ -6,7 +6,6 @@
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
 import settings
-from scrapy import log
 import pymongo
 import MySQLdb
 from scrapy.exceptions import DropItem
@@ -33,7 +32,7 @@ class MongoDBPipeline(object):
         db = self.client['Research_Gate']
         # db.authenticate(name=settings.mongodb_user, password=settings.mongodb_pwd, mechanism=settings.mongodb_mechanism)
         # self.collection = db[settings.mongodb_collection]
-        self.collection = db['link_item']
+        self.collection = db['link_item1']
         # self.collection = db['RGPerson_link']
     #def open_spider(self, spider):
     #    print spider.settings["HTTPCACHE_REDIS_HOST"]
@@ -59,9 +58,7 @@ class MongoDBPipeline(object):
                         'header_title' : item['header_title']
                     }
                 )
-            log.msg("Question added to MongoDB database!",
-                    level=log.DEBUG, spider=spider)
-        return item
+        # return item
 
     def close_spider(self, spider):
         self.client.close()
