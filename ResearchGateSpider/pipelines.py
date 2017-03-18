@@ -32,7 +32,7 @@ class MongoDBPipeline(object):
         db = self.client['Research_Gate']
         # db.authenticate(name=settings.mongodb_user, password=settings.mongodb_pwd, mechanism=settings.mongodb_mechanism)
         # self.collection = db[settings.mongodb_collection]
-        self.collection = db['link_item2']
+        self.collection = db['link_item_0318']
         # self.collection = db['RGPerson_link']
     #def open_spider(self, spider):
     #    print spider.settings["HTTPCACHE_REDIS_HOST"]
